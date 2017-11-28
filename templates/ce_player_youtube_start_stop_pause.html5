@@ -8,9 +8,11 @@
         <div id="ceYoutubePlayer-<?= $this->id ?>"></div>
       </div>
       <br>
+
       <button class="btn" data-button-role="play" data-button-id="ceYoutubePlayer-<?= $this->id ?>">Play</button>
       <button class="btn" data-button-role="pause" data-button-id="ceYoutubePlayer-<?= $this->id ?>">Pause</button>
       <button class="btn" data-button-role="stop" data-button-id="ceYoutubePlayer-<?= $this->id ?>">Stop</button>
+
 
       <script>
           jQuery(document).ready(function () {
@@ -20,7 +22,10 @@
                   elementId: '<?= $this->id ?>',
                   height: '<?= $size[1] ?>',
                   width: '<?= $size[0] ?>',
-                  videoId: '<?= $this->youtube ?>'
+                  videoId: '<?= $this->youtube ?>',
+                  playVideoSelector: '#ceYoutubePlayer-<?= $this->id ?>[data-button-role="play"]',
+                  pauseVideoSelector: '#ceYoutubePlayer-<?= $this->id ?>[data-button-role="pause"]',
+                  stopVideoSelector: '#ceYoutubePlayer-<?= $this->id ?>[data-button-role="stop"]',
               });
           });
       </script>
@@ -31,3 +36,12 @@
 <?php $this->endblock(); ?>
 
 
+jQuery('#video_off').click(function () {
+event.target.stopVideo();
+});
+jQuery('.galleria-image').click(function () {
+event.target.stopVideo();
+});
+jQuery('.map_trigger').click(function () {
+event.target.stopVideo();
+});

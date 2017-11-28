@@ -9,6 +9,14 @@ CeYoutubeStartStopPause = {
      */
     playerInfoList: [],
 
+    /**
+     * Store Data in Array
+     */
+    _playerInfo: [],
+
+    /**
+     * Var initialized
+     */
     initialized: false,
 
 
@@ -29,7 +37,7 @@ CeYoutubeStartStopPause = {
      * This function creates an <iframe> (and YouTube player) after the API code downloads.
      */
     createPlayer: function (playerInfo) {
-
+        CeYoutubeStartStopPause._playerInfo[playerInfo.id] = playerInfo;
         return new YT.Player(playerInfo.id, {
             height: playerInfo.height,
             width: playerInfo.width,
@@ -37,13 +45,15 @@ CeYoutubeStartStopPause = {
             elementId: playerInfo.elementId,
             events: {
                 'onReady': function (event) {
-                    jQuery('[data-button-role="play"][data-button-id="' + event.target.a.id + '"]').click(function () {
+                    jQuery(CeYoutubeStartStopPause._playerInfo[event.target.a.id]['playVideoSelector']).click(function () {
                         event.target.playVideo();
                     });
-                    jQuery('[data-button-role="pause"][data-button-id="' + event.target.a.id + '"]').click(function () {
+
+                    jQuery(CeYoutubeStartStopPause._playerInfo[event.target.a.id]['pauseVideoSelector']).click(function () {
                         event.target.pauseVideo();
                     });
-                    jQuery('[data-button-role="stop"][data-button-id="' + event.target.a.id + '"]').click(function () {
+
+                    jQuery(CeYoutubeStartStopPause._playerInfo[event.target.a.id]['stopVideoSelector']).click(function () {
                         event.target.stopVideo();
                     });
                 },
@@ -81,4 +91,3 @@ function onYouTubeIframeAPIReady() {
     });
 
 }
-
