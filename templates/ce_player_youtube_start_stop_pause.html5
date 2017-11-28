@@ -4,23 +4,25 @@
   <!-- indexer::stop -->
   <?php if ($this->isVideo): ?>
       <?php $size = deserialize($this->playerSize,true); ?>
-
-      <div id="ceYoutubePlayer-<?= $this->id ?>"></div>
+      <div class="embed-responsive embed-responsive-16by9">
+        <div id="ceYoutubePlayer-<?= $this->id ?>"></div>
+      </div>
       <br>
       <button class="btn" data-button-role="play" data-button-id="ceYoutubePlayer-<?= $this->id ?>">Play</button>
       <button class="btn" data-button-role="pause" data-button-id="ceYoutubePlayer-<?= $this->id ?>">Pause</button>
       <button class="btn" data-button-role="stop" data-button-id="ceYoutubePlayer-<?= $this->id ?>">Stop</button>
 
       <script>
-          CeYoutubeStartStopPause.playerInfoList.push(
-          {
-              id:'ceYoutubePlayer-<?= $this->id ?>',
-              elementId:'<?= $this->id ?>',
-              height:'<?= $size[1] ?>',
-              width:'<?= $size[0] ?>',
-              videoId:'<?= $this->youtube ?>'
-          }
-      );
+          jQuery(document).ready(function () {
+              CeYoutubeStartStopPause.playerInfoList.push(
+              {
+                  id: 'ceYoutubePlayer-<?= $this->id ?>',
+                  elementId: '<?= $this->id ?>',
+                  height: '<?= $size[1] ?>',
+                  width: '<?= $size[0] ?>',
+                  videoId: '<?= $this->youtube ?>'
+              });
+          });
       </script>
 
   <?php endif; ?>

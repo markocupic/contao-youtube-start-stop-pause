@@ -5,7 +5,7 @@
 CeYoutubeStartStopPause = {
 
     /**
-     * Contains the fplayer info an id filed in the template ce_player_youtube_start_stop_pause.html5
+     * Contains the player info an id filed in the template ce_player_youtube_start_stop_pause.html5
      */
     playerInfoList: [],
 
@@ -22,20 +22,21 @@ CeYoutubeStartStopPause = {
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        CeYoutubeStartStopPause.initialized = true;
     },
 
     /**
      * This function creates an <iframe> (and YouTube player) after the API code downloads.
      */
     createPlayer: function (playerInfo) {
-        var elementId = playerInfo.elementId;
+
         return new YT.Player(playerInfo.id, {
             height: playerInfo.height,
             width: playerInfo.width,
             videoId: playerInfo.videoId,
             elementId: playerInfo.elementId,
             events: {
-                'onReady': function (event, elementId) {
+                'onReady': function (event) {
                     jQuery('[data-button-role="play"][data-button-id="' + event.target.a.id + '"]').click(function () {
                         event.target.playVideo();
                     });
@@ -48,19 +49,21 @@ CeYoutubeStartStopPause = {
                 },
                 'onStateChange': function (event) {
                     if (event.data == YT.PlayerState.PLAYING) {
-                        //setTimeout(stopVideo, 6000);
+                        // Do something
                     }
                 }
             }
         });
     }
 }
-// Singleton
-if(CeYoutubeStartStopPause.initialized === false)
-{
-    // Initialize
-    CeYoutubeStartStopPause.initialize();
-}
+
+// Initialize class
+jQuery(document).ready(function () {
+    if (CeYoutubeStartStopPause.initialized !== true) {
+        // Initialize
+        CeYoutubeStartStopPause.initialize();
+    }
+});
 
 
 /**
@@ -73,9 +76,9 @@ function onYouTubeIframeAPIReady() {
         return;
 
     }
-
-    for (var i = 0; i < CeYoutubeStartStopPause.playerInfoList.length; i++) {
+    jQuery.each(CeYoutubeStartStopPause.playerInfoList, function (i, val) {
         var curplayer = CeYoutubeStartStopPause.createPlayer(CeYoutubeStartStopPause.playerInfoList[i]);
-    }
+    });
+
 }
 
